@@ -11,7 +11,7 @@ with open('README.rst') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
-requirements = ['Click>=6.0', ]
+requirements = [ ]
 
 setup_requirements = [ ]
 
@@ -33,7 +33,8 @@ setup(
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
     ],
-    description="Cooperate runs experiments on many different machines sharing a filesystem.",
+    description="Cooperate runs experiments on many different machines sharing"
+    " a filesystem.",
     entry_points={
         'console_scripts': [
             'cooperate=cooperate.cli:main',

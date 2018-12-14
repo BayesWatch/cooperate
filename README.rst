@@ -3,19 +3,6 @@ Cooperate
 =========
 
 
-.. image:: https://img.shields.io/pypi/v/cooperate.svg
-        :target: https://pypi.python.org/pypi/cooperate
-
-.. image:: https://img.shields.io/travis/gngdb/cooperate.svg
-        :target: https://travis-ci.org/gngdb/cooperate
-
-.. image:: https://readthedocs.org/projects/cooperate/badge/?version=latest
-        :target: https://cooperate.readthedocs.io/en/latest/?badge=latest
-        :alt: Documentation Status
-
-
-
-
 Cooperate runs experiments on many different machines sharing a filesystem.
 
 
