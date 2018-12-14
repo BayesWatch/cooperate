@@ -3,14 +3,15 @@
 """Console script for cooperate."""
 import sys
 import click
+from cooperate import cooperate
 
 
 @click.command()
-def main(args=None):
+@click.option("--doe", 'doe_path', type=str, required=False, default=None)
+def main(doe_path, args=None):
     """Console script for cooperate."""
-    click.echo("Replace this message by putting your code into "
-               "cooperate.cli.main")
-    click.echo("See click documentation at http://click.pocoo.org/")
+    if doe_path is not None:
+        cooperate.build_doe(doe_path)
     return 0
 
 
