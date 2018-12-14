@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import json
+import subprocess
 from shutil import copyfile
 from random import shuffle
 
@@ -99,3 +100,20 @@ def space_values(dynamic_option):
             if len(value) > 0:
                 values.append(value)
     return values
+
+
+def run_experiments(to_run):
+    try:
+        while True:
+            # read all experiments
+            with open(to_run, "r") as f:
+                schedule = json.load(f)
+            # remove one
+            experiment_to_run = schedule.pop()
+            # write experiments back with this one removed
+            with open(to_run, "w") as f:
+                f.write(json.dumps(schedule))
+            print("Running: ", " ".join(experiment_to_run))
+            subprocess.run(experiment_to_run)
+    except IndexError:
+        print("All experiments completed.")
