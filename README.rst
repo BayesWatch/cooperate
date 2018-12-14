@@ -32,7 +32,7 @@ It's not actually necessary to use this package to generate your experiment
 json. The json file to run experiments only has contain a list containing
 tuples of the parts of the command to be run. For example:
 
-.. code:: json
+.. codeblock:: json
   [
     ["python", "main.py", "--lr", "0.1"],
     ["python", "main.py", "--lr", "0.2"],
@@ -45,8 +45,7 @@ control, and you can just regenerate the experiment schedule each time.
 
 Alternatively, to create a ``.json`` file use the following command:
 
-.. codeblock::
-  cooperate --doe <experiment_json_name.json>
+``cooperate --doe <experiment_json_name.json>``
 
 Then, follow the prompts to generate a set of experiment options.
 
@@ -59,8 +58,7 @@ experiments on, you can just call ``cooperate`` four times in separate shells
 with different settings for ``CUDA_VISIBLE_DEVICES``. It is always called the
 same way:
 
-.. codeblock::
-  cooperate --run <experiment_json_name.json>
+``cooperate --run <experiment_json_name.json>``
 
 Distributed experiments
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -75,12 +73,12 @@ Install
 If you're using conda, it may be better to install the requirement through that
 first, to save pip making a mess of your virtual environment:
 
-    conda install click
+``conda install click``
 
 Then install via pip (it'll install the requirement if you didn't do the
 previous step):
 
-    pip install git+https://github.com/Bayeswatch/cooperate
+``pip install git+https://github.com/Bayeswatch/cooperate``
 
 FAQ
 ---
