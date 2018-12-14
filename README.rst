@@ -32,10 +32,11 @@ It's not actually necessary to use this package to generate your experiment
 json. The json file to run experiments only has contain a list containing
 tuples of the parts of the command to be run. For example:
 
-    [
-      ["python", "main.py", "--lr", "0.1"],
-      ["python", "main.py", "--lr", "0.2"],
-    ]
+.. code-block:: json
+  [
+    ["python", "main.py", "--lr", "0.1"],
+    ["python", "main.py", "--lr", "0.2"],
+  ]
 
 It's even possible to write this yourself in an editor, but you may want to
 save a backup because the original ``.json`` will be destroyed when the
@@ -44,7 +45,8 @@ control, and you can just regenerate the experiment schedule each time.
 
 Alternatively, to create a ``.json`` file use the following command:
 
-    cooperate --doe <experiment_json_name.json>
+.. code-block::
+  cooperate --doe <experiment_json_name.json>
 
 Then, follow the prompts to generate a set of experiment options.
 
@@ -57,7 +59,8 @@ experiments on, you can just call ``cooperate`` four times in separate shells
 with different settings for ``CUDA_VISIBLE_DEVICES``. It is always called the
 same way:
 
-    cooperate --run <experiment_json_name.json>
+.. code-block::
+  cooperate --run <experiment_json_name.json>
 
 Distributed experiments
 ~~~~~~~~~~~~~~~~~~~~~~~
