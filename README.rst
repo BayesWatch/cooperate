@@ -32,7 +32,7 @@ It's not actually necessary to use this package to generate your experiment
 json. The json file to run experiments only has contain a list containing
 tuples of the parts of the command to be run. For example:
 
-.. codeblock:: json
+.. code:: json
   [
     ["python", "main.py", "--lr", "0.1"],
     ["python", "main.py", "--lr", "0.2"],
