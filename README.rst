@@ -83,12 +83,12 @@ previous step):
 FAQ
 ---
 
-What about my results?
-~~~~~~~~~~~~~~~~~~~~~~
+What about my results/logs?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-They'll be saved wherever they're saved on each machine you ran the command
-from.
-
+It just runs the commands in the ``.json`` file, so whatever happens when you
+run your experiment normally will happen. You may have to set your experiment
+to save results to a file named according to the settings it was run with.
 
 Credits
 -------
