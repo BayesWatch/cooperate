@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import json
 import subprocess
-from shutil import copyfile
 from random import shuffle
 
 """Utility for generating a json prescribing experiments, and for running
@@ -59,8 +58,6 @@ def build_doe(file_path):
                 experiments[i] += [d, dyn_vals[d][i]]
     with open(file_path, "w") as f:
         f.write(json.dumps(experiments))
-    # always create a backup, to save repeating the generation process
-    copyfile(file_path, file_path+'.backup')
     return None
 
 
@@ -108,10 +105,14 @@ def run_experiments(to_run):
             # read all experiments
             with open(to_run, "r") as f:
                 schedule = json.load(f)
+            # filter for experiments that have not been run yet
+            remaining = [i for i,e in enumerate(schedule) if e[0] != "executed"]
             # remove one
-            experiment_to_run = schedule.pop()
-            # write experiments back with this one removed
+            experiment_idx = remaining.pop()
+            experiment_to_run = schedule[experiment_idx]
+            # write experiments back with this one marked
             with open(to_run, "w") as f:
+                schedule[experiment_idx] = ["executed"] + experiment_to_run
                 f.write(json.dumps(schedule))
             print("Running: ", " ".join(experiment_to_run))
             subprocess.run(experiment_to_run)

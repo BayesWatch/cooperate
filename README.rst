@@ -14,7 +14,7 @@ This is for you if you:
 
 You won't have to modify the script running your experiment, or set up
 anything. This code doesn't do anything clever, and has almost no requirements
-(just Click, for cmdline).
+(just Click, for cli).
 
 How does it work?
 -----------------
@@ -22,8 +22,9 @@ How does it work?
 Cooperate does two independent things:
 
 1. Makes a ``.json`` file containing a list of commands to run experiments.
-2. Loops over the experiments in those ``.json`` files, removing one at a time
-   and running it.
+2. Loops over the experiments in those ``.json`` files, choosing one at a time,
+   prepending "executed" to the command in the json and then running the
+   command.
 
 Making an experiment schedule
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -38,10 +39,9 @@ tuples of the parts of the command to be run. For example:
     ["python", "main.py", "--lr", "0.2"],
   ]
 
-It's even possible to write this yourself in an editor, but you may want to
-save a backup because the original ``.json`` will be destroyed when the
-experiment is run.  Creating this in Python yourself gives you much more
-control, and you can just regenerate the experiment schedule each time.
+It's even possible to write this yourself in an editor. Creating this in Python
+yourself gives you much more control, and you can just regenerate the
+experiment schedule each time you need to make a change.
 
 Alternatively, to create a ``.json`` file use the following command:
 
