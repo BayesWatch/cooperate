@@ -106,7 +106,7 @@ def run_experiments(to_run):
             with open(to_run, "r") as f:
                 schedule = json.load(f)
             # filter for experiments that have not been run yet
-            remaining = [i for i,e in enumerate(schedule) if e[0] != "executed"]
+            remaining = not_run_yet(schedule)
             # remove one
             experiment_idx = remaining.pop()
             experiment_to_run = schedule[experiment_idx]
@@ -115,6 +115,29 @@ def run_experiments(to_run):
                 schedule[experiment_idx] = ["executed"] + experiment_to_run
                 f.write(json.dumps(schedule))
             print("Running: ", " ".join(experiment_to_run))
-            subprocess.run(experiment_to_run)
+            subprocess.run(experiment_to_run, check=True)
     except IndexError:
         print("All experiments completed.")
+
+def not_run_yet(schedule):
+    return [i for i,e in enumerate(schedule) if e[0] != "executed"]
+
+def progress(running_json):
+    import time
+    from tqdm import tqdm
+    def status(running_json):
+        with open(running_json, "r") as f:
+            schedule = json.load(f)
+        # filter for experiments that have not been run yet
+        remaining = not_run_yet(schedule)
+        return len(remaining), len(schedule)
+    remaining, total = status(running_json)
+    with tqdm(total=total) as pbar:
+        pbar.n = total - remaining
+        while remaining < total:
+            remaining, total = status(running_json)
+            done = total - remaining
+            if pbar.n < done:
+                pbar.update(done-pbar.n)
+            time.sleep(1.0)
+
