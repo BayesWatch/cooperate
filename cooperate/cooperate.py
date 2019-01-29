@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import os
 import json
 import subprocess
 from random import shuffle
@@ -100,6 +101,10 @@ def space_values(dynamic_option):
 
 
 def run_experiments(to_run):
+    experiment_logfile, i = "cooperate_%i", 0
+    while os.path.exists(experiment_logfile%i):
+        i += 1 
+    experiment_logfile = experiment_logfile%i
     try:
         while True:
             # read all experiments
@@ -115,7 +120,14 @@ def run_experiments(to_run):
                 schedule[experiment_idx] = ["executed"] + experiment_to_run
                 f.write(json.dumps(schedule))
             print("Running: ", " ".join(experiment_to_run))
-            subprocess.run(experiment_to_run, check=True)
+            # and write this to file, noting which GPU it is being run on:
+            with open(experiment_logfile, "w") as f:
+                f.write(" ".join(experiment_to_run) + "\n")
+            try:
+                subprocess.run(experiment_to_run, check=True)
+            except subprocess.CalledProcessError:
+                print("I was " + experiment_logfile)
+                raise
     except IndexError:
         print("All experiments completed.")
 
@@ -123,8 +135,6 @@ def not_run_yet(schedule):
     return [i for i,e in enumerate(schedule) if e[0] != "executed"]
 
 def progress(running_json):
-    import time
-    from tqdm import tqdm
     def status(running_json):
         with open(running_json, "r") as f:
             schedule = json.load(f)
@@ -132,12 +142,4 @@ def progress(running_json):
         remaining = not_run_yet(schedule)
         return len(remaining), len(schedule)
     remaining, total = status(running_json)
-    with tqdm(total=total) as pbar:
-        pbar.n = total - remaining
-        while remaining < total:
-            remaining, total = status(running_json)
-            done = total - remaining
-            if pbar.n < done:
-                pbar.update(done-pbar.n)
-            time.sleep(1.0)
-
+    print(f"Executed (not necessarily completed): {total-remaining}/{total}")
