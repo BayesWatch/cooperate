@@ -99,8 +99,27 @@ def space_values(dynamic_option):
                 values.append(value)
     return values
 
+def execute(experiment, experiment_logfile, persistent=False):
+    postfix = []
+    while True:
+        try:
+            return subprocess.run(experiment + postfix, check=True)
+        except subprocess.CalledProcessError:
+            print("I was " + experiment_logfile)
+            if not persistent:
+                raise
+        if os.path.exists("cooperate.persistent.postfix"):
+            with open("cooperate.persistent.postfix", "r") as f:
+                postfix = [f.read()]
 
-def run_experiments(to_run):
+def run_experiments(to_run, persistent=False):
+    # if we want to add a flag to rerun jobs
+    if persistent:
+        flag = input("Flag to append, when failed: ")
+        if len(flag) > 0:
+            with open("cooperate.persistent.postfix", "w") as f:
+                f.write(flag)
+    # find a place to write a logfile
     experiment_logfile, i = "cooperate_%i", 0
     while os.path.exists(experiment_logfile%i):
         i += 1 
@@ -122,12 +141,8 @@ def run_experiments(to_run):
             print("Running: ", " ".join(experiment_to_run))
             # and write this to file, noting which GPU it is being run on:
             with open(experiment_logfile, "w") as f:
-                f.write(" ".join(experiment_to_run) + "\n")
-            try:
-                subprocess.run(experiment_to_run, check=True)
-            except subprocess.CalledProcessError:
-                print("I was " + experiment_logfile)
-                raise
+                f.write(" ".join(experiment_to_run))
+            execute(experiment_to_run, experiment_logfile, persistent)
     except IndexError:
         print("All experiments completed.")
 
