@@ -105,12 +105,43 @@ def execute(experiment, experiment_logfile, persistent=False):
         try:
             return subprocess.run(experiment + postfix, check=True)
         except subprocess.CalledProcessError:
-            print("I was " + experiment_logfile)
+            if experiment_logfile is not None:
+                print("I was " + experiment_logfile)
             if not persistent:
                 raise
         if os.path.exists("cooperate.persistent.postfix"):
             with open("cooperate.persistent.postfix", "r") as f:
                 postfix = [f.read()]
+
+def execute_single(to_run, persistent=False):
+    # if we want to add a flag to rerun jobs
+    if persistent:
+        flag = input("Flag to append, when failed: ")
+        if len(flag) > 0:
+            with open("cooperate.persistent.postfix", "w") as f:
+                f.write(flag)
+
+    # read all experiments
+    with open(to_run, "r") as f:
+        schedule = json.load(f)
+    # print out all the experiments
+    for i, experiment in enumerate(schedule):
+        if "executed" == experiment[0]:
+            print("%i (previously executed): "%i, experiment[1:])
+        else:
+            print("%i: "%i, experiment)
+    # remove one
+    experiment_idx = int(input("Experiment to run: "))
+    experiment_to_run = schedule[experiment_idx]
+    if "executed" == experiment_to_run[0]:
+        experiment_to_run = experiment_to_run[1:]
+    # write experiments back with this one marked
+    with open(to_run, "w") as f:
+        schedule[experiment_idx] = ["executed"] + experiment_to_run
+        f.write(json.dumps(schedule))
+    # run this experiment
+    print("Running: ", " ".join(experiment_to_run))
+    execute(experiment_to_run, None, persistent)
 
 def run_experiments(to_run, persistent=False):
     # if we want to add a flag to rerun jobs
