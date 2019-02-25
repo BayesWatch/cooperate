@@ -54,7 +54,7 @@ Following on from the ``python main.py --lr`` example above, first you
 generate a json file with the experiments you want to run. For example,
 you could write a small Python script to do it:
 
-::
+.. codeblock:: python
   import json
   experiment_list = []
   for lr_setting in [0.1, 0.2, 0.3, 0.4]:
