@@ -35,7 +35,7 @@ Quick Start
 -----------
 
 Install
-^^^^^^^
+~~~~~~~
 
 If you're using conda, it may be better to install the requirement through that
 first, to save pip making a mess of your virtual environment:
