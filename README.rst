@@ -48,13 +48,12 @@ previous step):
 ``pip install git+https://github.com/Bayeswatch/cooperate``
 
 Generate a json
-^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~
 
 Following on from the ``python main.py --lr`` example above, first you
 generate a json file with the experiments you want to run. For example,
-you could write a small Python script to do it:
+you could write a small Python script to do it::
 
-.. codeblock:: python
   import json
   experiment_list = []
   for lr_setting in [0.1, 0.2, 0.3, 0.4]:
@@ -75,7 +74,7 @@ AFS, somewhere in your home directory.
 ``cp my_experiments.json ~/experiment_lists/``
 
 Run Experiments
-^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~
 
 In each place we would like to run these experiments, on different
 machines, navigate to the location you would have to be to run the
@@ -113,9 +112,8 @@ Making an experiment schedule
 
 It's not actually necessary to use this package to generate your experiment
 json. The json file to run experiments only has contain a list containing
-tuples of the parts of the command to be run. For example:
+tuples of the parts of the command to be run. For example::
 
-.. codeblock:: json
   [
     ["python", "main.py", "--lr", "0.1"],
     ["python", "main.py", "--lr", "0.2"],
