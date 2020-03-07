@@ -9,7 +9,7 @@ You know when you're running a simple script, maybe like:
 
 ``python main.py --lr 0.1``
 
-And then you realise you want to run various settings for ``--lr`` so 
+And then you realise you want to run various settings for ``--lr`` 
 so you write a bash script to iterate over values, and passing them.
 This works OK, but what if you have 1 GPU on your local machine, 4 on
 a shared server and another one your friend is letting you use on their 
